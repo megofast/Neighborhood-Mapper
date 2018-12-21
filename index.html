@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Neighborhood Mapper</title>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3" style="background-color:lavender;">
+          <h1>Points of Interest</h1>
+      </div>
+      <div class="col-md-9" style="background-color:lavenderblush;">map area</div>
+    </div>
+  </div>
+  <script src="libraries/knockout-3.5.0.js"></script>
+  <script src="js/models/model.js"></script>
+  <script src="js/maps.js"></script>
+  <script async defer
+     src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCR1gK82_1nf14TURGx1h1ZI_HxpPz23es&callback=initMap">
+   </script>
+</body>
+</html>
