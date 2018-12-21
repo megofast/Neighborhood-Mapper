@@ -1,6 +1,6 @@
 var map;
 
-function initMap(map) {
+function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 42.2411344, lng: -88.31619649999999},
     zoom: 13, mapTypeControl: false, gestureHandling: 'none'
@@ -17,20 +17,15 @@ var viewModel = function() {
   var largeInfoWindow = new google.maps.InfoWindow();
 
   for (i = 0; i < locations.length; i++) {
-    var poi = new POI;
-    self.pois.push(poi.init(location[i]));
+    this.pois.push(new POI(locations[i]));
   }
-  //locations.forEach(function(loc) {
-  //  var poi = new POI;
-  //  self.pois.push(poi.init(loc));
-  //});
 
-  for (i = 0; i < self.pois.length; i++) {
+  for (i = 0; i < self.pois().length; i++) {
     // Create a marker for each locations
     var marker = new google.maps.Marker({
       map: map,
-      position: self.pois.position,
-      title: self.pois.name,
+      position: self.pois()[i].location(),
+      title: self.pois()[i].name(),
       animation: google.maps.Animation.DROP,
       id: i
     });
@@ -44,3 +39,15 @@ var viewModel = function() {
     });
   }
 };
+
+function createInfoWindow(marker, infoWindow) {
+  // Make sure the infowindow is not already open
+  if (infoWindow.marker !== marker) {
+    infoWindow.marker = marker;
+    infoWindow.setContent('<div>' + marker.title + '</div>');
+    infoWindow.open(map, marker);
+    infoWindow.addListener('closeclick', function() {
+      infoWindow.marker = null;
+    });
+  }
+}
