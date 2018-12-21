@@ -4,10 +4,10 @@ var markers = [];
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 42.2411344, lng: -88.31619649999999},
-    zoom: 13, mapTypeControl: false
+    zoom: 13, mapTypeControl: false, gestureHandling: 'none'
   });
   var locs = new model();
-  
+
   var largeInfoWindow = new google.maps.InfoWindow();
   for (var i = 0; i < locs.locations.length; i++) {
     var position = locs.locations[i].location;
