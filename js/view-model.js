@@ -1,24 +1,31 @@
 var map;
-var markers = [];
 
-function initMap() {
+function initMap(map) {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 42.2411344, lng: -88.31619649999999},
     zoom: 13, mapTypeControl: false, gestureHandling: 'none'
   });
 
-  var locs = new model();
+  // Create a view model
+  ko.applyBindings(new viewModel());
+}
 
+var viewModel = function() {
+  var self = this;
+  self.pois = ko.observableArray([]);
+  var markers = [];
   var largeInfoWindow = new google.maps.InfoWindow();
-  for (var i = 0; i < locs.locations.length; i++) {
-    var position = locs.locations[i].location;
-    var name = locs.locations[i].name;
 
+  locations.forEach(function(loc) {
+    self.pois.push(new POI.init(loc));
+  });
+
+  for (i = 0; i < self.pois.length; i++) {
     // Create a marker for each locations
     var marker = new google.maps.Marker({
       map: map,
-      position: position,
-      title: name,
+      position: self.pois.position,
+      title: self.pois.name,
       animation: google.maps.Animation.DROP,
       id: i
     });
@@ -30,17 +37,5 @@ function initMap() {
     marker.addListener('click', function() {
       createInfoWindow(this, largeInfoWindow);
     });
-  } // Close for loop
-}
-
-function createInfoWindow(marker, infoWindow) {
-  // Make sure the infowindow is not already open
-  if (infoWindow.marker !== marker) {
-    infoWindow.marker = marker;
-    infoWindow.setContent('<div>' + marker.title + '</div>');
-    infoWindow.open(map, marker);
-    infoWindow.addListener('closeclick', function() {
-      infoWindow.marker = null;
-    });
   }
-}
+};

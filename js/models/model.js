@@ -6,21 +6,21 @@ this.locations = [
   {name: 'Lippold Park', location: {lat: 42.2456814, lng: -88.362401}}
 ];
 
-var poi = function() {
+var POI = function() {
     this.name = ko.observable();
-    this.location = ko.observableArray();
-    this.reviews = ko.observableArray(); // From yelp
-    this.images = ko.observableArray(); // From flickr
+    this.location = ko.observableArray([]);
+    this.reviews = ko.observableArray([]); // From yelp
+    this.images = ko.observableArray([]); // From foursquare
 
-  function init_model(loc_data) {
+  function init(loc_data) {
     // TODO: Add functionality to fill poi data
     this.name(loc_data.name);
-    
+    this.location(loc_data.location);
   }
   // TODO: Add function to use ajax to get yelp reviews for place
   function getYelpReview(location_name) {
 
   }
 
-  // TODO: Add function to get photos from flickr for place
+  // TODO: Add function to get photos from foursquare for place
 };
