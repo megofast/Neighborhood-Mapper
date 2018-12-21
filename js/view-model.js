@@ -16,9 +16,14 @@ var viewModel = function() {
   var markers = [];
   var largeInfoWindow = new google.maps.InfoWindow();
 
-  locations.forEach(function(loc) {
-    self.pois.push(new POI.init(loc));
-  });
+  for (i = 0; i < locations.length; i++) {
+    var poi = new POI;
+    self.pois.push(poi.init(location[i]));
+  }
+  //locations.forEach(function(loc) {
+  //  var poi = new POI;
+  //  self.pois.push(poi.init(loc));
+  //});
 
   for (i = 0; i < self.pois.length; i++) {
     // Create a marker for each locations

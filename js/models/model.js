@@ -1,4 +1,4 @@
-this.locations = [
+locations = [
   {name: 'Veterans Acres Park', location: {lat: 42.241134, lng: -88.316196}},
   {name: 'Main Beach', location: {lat: 42.2311724, lng: -88.3478235}},
   {name: 'The Cottage', location: {lat: 42.24132, lng: -88.3226819}},
@@ -12,7 +12,8 @@ var POI = function() {
     this.reviews = ko.observableArray([]); // From yelp
     this.images = ko.observableArray([]); // From foursquare
 
-  function init(loc_data) {
+  this.init = function(loc_data) {
+    console.log(loc_data.name);
     // TODO: Add functionality to fill poi data
     this.name(loc_data.name);
     this.location(loc_data.location);
