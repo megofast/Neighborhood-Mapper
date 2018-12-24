@@ -10,29 +10,36 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+  <div class="navbar navbar-inverse">
+    Top Bar
+  </div>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row no-pad-marg">
       <div class="col-sm-3" style="height: 100%">
           <div class="container-fluid">
             <div class="row">
               <h3>Points of Interest</h3>
             </div>
             <div class="row">
-              <ul data-bind='foreach: pois'>
-            		<li data-bind='text: name'></li>
+              <ul data-bind="foreach: pois">
+            		<li data-bind="text: name"></li>
             	</ul>
             </div>
-            <div class="row">
-              Another Row!
+            <div class="row" id="info_pane">
+              <ul data-bind="foreach: pois">
+            		<li data-bind="text: phone"></li>
+            	</ul>
             </div>
           </div>
       </div>
-      <div class="col-sm-9">
+      <div class="col-sm-9 no-pad-marg">
         <div id="map"></div>
       </div>
     </div>
   </div>
+  <div id='results'></div>
   <script src="libraries/knockout-3.5.0rc2.js"></script>
+  <script src="js/maps.js"></script>
   <script src="js/models/model.js"></script>
   <script src="js/view-model.js"></script>
   <script async defer

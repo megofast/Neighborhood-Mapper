@@ -16,38 +16,21 @@ var viewModel = function() {
   var markers = [];
   var largeInfoWindow = new google.maps.InfoWindow();
 
+  // Create all the POI in to the pois array
   for (i = 0; i < locations.length; i++) {
     this.pois.push(new POI(locations[i]));
   }
 
+  // Use the pois array to create the map markers via googlemaps api.
   for (i = 0; i < self.pois().length; i++) {
-    // Create a marker for each locations
-    var marker = new google.maps.Marker({
-      map: map,
-      position: self.pois()[i].location(),
-      title: self.pois()[i].name(),
-      animation: google.maps.Animation.DROP,
-      id: i
-    });
+    var marker = createMarker(map, self.pois()[i].location(), self.pois()[i].name(), i);
 
     // Add the marker to the markers array
     markers.push(marker);
 
     // Create a click listener for each marker
     marker.addListener('click', function() {
-      createInfoWindow(this, largeInfoWindow);
+      createInfoWindow(map, this, largeInfoWindow);
     });
   }
 };
-
-function createInfoWindow(marker, infoWindow) {
-  // Make sure the infowindow is not already open
-  if (infoWindow.marker !== marker) {
-    infoWindow.marker = marker;
-    infoWindow.setContent('<div>' + marker.title + '</div>');
-    infoWindow.open(map, marker);
-    infoWindow.addListener('closeclick', function() {
-      infoWindow.marker = null;
-    });
-  }
-}

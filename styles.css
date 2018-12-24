@@ -1,4 +1,22 @@
+html,body {
+  height: 100%;
+  background-color: #343148;
+  color: white;
+  padding: 0;
+  margin: 0;
+}
+
 #map {
   height: 500px;
+  padding: 0;
+  margin: 0;
+}
 
+#info-window {
+  color: black;
+}
+
+.no-pad-marg {
+  padding: 0;
+  margin: 0;
 }

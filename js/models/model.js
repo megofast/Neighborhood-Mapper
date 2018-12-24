@@ -1,41 +1,65 @@
 locations = [
-  {name: 'Veterans Acres Park', location: {lat: 42.241134, lng: -88.316196}},
-  {name: 'Main Beach', location: {lat: 42.2311724, lng: -88.3478235}},
-  {name: 'The Cottage', location: {lat: 42.24132, lng: -88.3226819}},
-  {name: 'Sterns Woods', location: {lat: 42.2589705, lng: -88.3219884}},
-  {name: 'Lippold Park', location: {lat: 42.2456814, lng: -88.362401}}
+  {name: 'Veterans Acres Park', location: {lat: 42.252071, lng: -88.318866}},
+  {name: 'Main Beach', location: {lat: 42.232333, lng: -88.344324}},
+  {name: 'The Cottage', location: {lat: 42.241346, lng: -88.320419}},
+  {name: 'Sterns Woods', location: {lat: 42.263007, lng: -88.307918}},
+  {name: 'Cafe Olympic', location: {lat: 42.24338, lng: -88.317306}},
+  //{name: 'Raue Center', location: {lat: 42.241961, lng: -88.319034}}
 ];
 
 var POI = function(loc_data) {
     self = this;
     self.name = ko.observable(loc_data.name);
+    self.rating = ko.observable();
+    self.formatted_address = ko.observable();
+    self.phone = ko.observable();
     self.location = ko.observableArray([]);
     self.reviews = ko.observableArray([]); // From yelp
-    self.images = ko.observableArray([]); // From foursquare
+    self.images = ko.observableArray([]);
 
     self.location(loc_data.location);
     // Get reviews for the POI
-    console.log(getYelpBusinessID(self.name()));
-
-  // TODO: Add function to use ajax to get yelp reviews for place
-
+    var promise = getYelpBusinessID(self.name(), self.location());
+    promise.success(function(data) {
+      console.log(data);
+    });
 
   // TODO: Add function to get photos from foursquare for place
 };
 
-function getYelpBusinessID(businessName) {
-  var yelpUrl = 'https://api.yelp.com/v3/businesses/search?term=' + businessName;
-  $.ajax({
+function getYelpBusinessID(businessName, loc) {
+  var yelpUrl = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + businessName + '&latitude=' + loc.lat + '&longitude=' + loc.lng + '&limit=1';
+  return $.ajax({
       url: yelpUrl,
-      dataType: "jsonp",
-      jsonp: "callback",
+      method: 'GET',
+      dataType: "json",
       headers: {
         'Authorization': 'Bearer sLO_kLMdzCbgJI1PJq--7F209ejJVW4iO0KGXClPsH81jk2DY-z1VMvFOme5yh7XzOXhj-b3QE1iKWfk8KihTlB_OW9HI2j9OrGkk3RN6W4R-S3SiSvgXF84ZDIcXHYx',
       },
-      success: function( response ) {
-          return response;
+      /*success: function( response ) {
+          //return response.total;
 
-      }
+          $.each(response.businesses, function(i, item) {
+
+                        // Store each business's object in a variable
+                        yelp_data = {
+                        id: item.id,
+                        phone: item.display_phone,
+                        image: item.image_url,
+                        name: item.name,
+                        rating: item.rating,
+                        reviewcount: item.review_count,
+                        address: item.location.address1,
+                        city: item.location.city,
+                        state: item.location.state,
+                        zipcode: item.location.zip_code,
+                        };
+                        console.log(yelp_data.phone);
+                        // Append our result into our page
+                        //$('#info_pane').append('<div>' + id + '</div>');//'" style="margin-top:50px;margin-bottom:50px;"><img src="' + image + '" style="width:200px;height:150px;"><br>We found <b>' + name + '</b> (' + alias + ')<br>Business ID: ' + id + '<br> Located at: ' + address + ' ' + city + ', ' + state + ' ' + zipcode + '<br>The phone number for this business is: ' + phone + '<br>This business has a rating of ' + rating + ' with ' + reviewcount + ' reviews.</div>');
+                  });
+
+      }*/
   });
 }
 
