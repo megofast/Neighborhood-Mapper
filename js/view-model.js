@@ -1,4 +1,5 @@
 var map;
+var vm;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -7,8 +8,8 @@ function initMap() {
   });
 
   // Create a view model
-  var view = new viewModel();
-  ko.applyBindings(view);
+  vm = new viewModel();
+  ko.applyBindings(vm);
 }
 
 var viewModel = function() {
