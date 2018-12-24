@@ -7,7 +7,8 @@ function initMap() {
   });
 
   // Create a view model
-  ko.applyBindings(new viewModel());
+  var view = new viewModel();
+  ko.applyBindings(view);
 }
 
 var viewModel = function() {

@@ -20,8 +20,10 @@ var POI = function(loc_data) {
     self.location(loc_data.location);
     // Get reviews for the POI
     var promise = getYelpBusinessID(self.name(), self.location());
-    promise.success(function(data) {
-      console.log(data);
+
+    promise.then(function(data) {
+      console.log(data.businesses[0].display_phone);
+      self.phone(data.businesses[0].display_phone);
     });
 
   // TODO: Add function to get photos from foursquare for place
