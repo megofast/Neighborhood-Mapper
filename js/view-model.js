@@ -33,10 +33,8 @@ var viewModel = function() {
     // Create a click listener for each marker
     marker.addListener('click', function() {
       // Create an api request to get the yelp data for just this item
-      var response = requestYelpData(this.id, self.pois()[this.id].name(), self.pois()[this.id].location());
-      console.log(response.id);
-      console.log(response.data.businesses[0].display_phone);
-
+      requestYelpData(this.id, self, self.pois()[this.id].name(), self.pois()[this.id].location());
+      // Create the info window
       createInfoWindow(map, this, largeInfoWindow);
     });
   }

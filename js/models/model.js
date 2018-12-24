@@ -23,14 +23,11 @@ var POI = function(loc_data) {
   // TODO: Add function to get photos from foursquare for place
 };
 
-function requestYelpData(id, name, loc) {
+function requestYelpData(id, vm, name, loc) {
   var promise = getYelpData(name, loc);
   promise.then(function(data) {
-    console.log(data.businesses[0].display_phone);
-
-    
+    vm.pois()[id].phone(data.businesses[0].display_phone);
   });
-
 }
 
 function getYelpData(businessName, loc) {
@@ -42,30 +39,6 @@ function getYelpData(businessName, loc) {
       headers: {
         'Authorization': 'Bearer sLO_kLMdzCbgJI1PJq--7F209ejJVW4iO0KGXClPsH81jk2DY-z1VMvFOme5yh7XzOXhj-b3QE1iKWfk8KihTlB_OW9HI2j9OrGkk3RN6W4R-S3SiSvgXF84ZDIcXHYx',
       },
-      /*success: function( response ) {
-          //return response.total;
-
-          $.each(response.businesses, function(i, item) {
-
-                        // Store each business's object in a variable
-                        yelp_data = {
-                        id: item.id,
-                        phone: item.display_phone,
-                        image: item.image_url,
-                        name: item.name,
-                        rating: item.rating,
-                        reviewcount: item.review_count,
-                        address: item.location.address1,
-                        city: item.location.city,
-                        state: item.location.state,
-                        zipcode: item.location.zip_code,
-                        };
-                        console.log(yelp_data.phone);
-                        // Append our result into our page
-                        //$('#info_pane').append('<div>' + id + '</div>');//'" style="margin-top:50px;margin-bottom:50px;"><img src="' + image + '" style="width:200px;height:150px;"><br>We found <b>' + name + '</b> (' + alias + ')<br>Business ID: ' + id + '<br> Located at: ' + address + ' ' + city + ', ' + state + ' ' + zipcode + '<br>The phone number for this business is: ' + phone + '<br>This business has a rating of ' + rating + ' with ' + reviewcount + ' reviews.</div>');
-                  });
-
-      }*/
   });
 }
 
