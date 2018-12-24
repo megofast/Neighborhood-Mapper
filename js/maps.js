@@ -11,8 +11,7 @@ function createMarker(map, pos, title, id) {
 
 function createInfoWindow(map, marker, infoWindow) {
   // Make sure the infowindow is not already open
-  console.log(marker.title);
-  console.log(infoWindow);
+  
   if (infoWindow.marker !== marker) {
     infoWindow.marker = marker;
     infoWindow.setContent('<div id="info-window">' + marker.title + '</div>');

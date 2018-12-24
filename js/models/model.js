@@ -16,20 +16,24 @@ var POI = function(loc_data) {
     self.location = ko.observableArray([]);
     self.reviews = ko.observableArray([]); // From yelp
     self.images = ko.observableArray([]);
-
     self.location(loc_data.location);
     // Get reviews for the POI
-    var promise = getYelpBusinessID(self.name(), self.location());
 
-    promise.then(function(data) {
-      console.log(data.businesses[0].display_phone);
-      self.phone(data.businesses[0].display_phone);
-    });
 
   // TODO: Add function to get photos from foursquare for place
 };
 
-function getYelpBusinessID(businessName, loc) {
+function requestYelpData(id, name, loc) {
+  var promise = getYelpData(name, loc);
+  promise.then(function(data) {
+    console.log(data.businesses[0].display_phone);
+
+    
+  });
+
+}
+
+function getYelpData(businessName, loc) {
   var yelpUrl = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + businessName + '&latitude=' + loc.lat + '&longitude=' + loc.lng + '&limit=1';
   return $.ajax({
       url: yelpUrl,
