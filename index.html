@@ -10,10 +10,26 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <div class="navbar navbar-inverse">
-    Top Bar
+  <nav class="navbar navbar-inverse no-pad-marg">
+    <div class="container-fluid">
+      <div class="nav navbar-left">
+        <div class="form-group">
+          <label for="select_filter">Select Filter:</label>
+          <select class="form-control" id="select_filter">
+            <option>Restaurant</option>
+            <option>Outdoor Recreation</option>
+            <option>Entertainment</option>
+          </select>
+        </div>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Show Markers</a></li>
+        <li><a href="#">Hide Markers</a></li>
+      </ul>
+    </div>
+  </nav>
   </div>
-  <div class="container-fluid">
+  <div class="container-fluid no-pad-marg">
     <div class="row no-pad-marg">
       <div class="col-sm-3" style="height: 100%">
           <div class="container-fluid">
@@ -21,14 +37,12 @@
               <h3>Points of Interest</h3>
             </div>
             <div class="row">
-              <ul data-bind="foreach: pois">
-            		<li data-bind="text: name"></li>
-            	</ul>
+              <div class="list-group" data-bind="foreach: pois">
+            		<a href="#" class="list-group-item" data-bind="text: name"></a>
+            	</div>
             </div>
             <div class="row" id="info_pane">
-              <ul data-bind="foreach: pois">
-            		<li data-bind="text: phone"></li>
-            	</ul>
+              <div data-bind="text: pois()[2].name()">Selected Data</div>
             </div>
           </div>
       </div>
@@ -37,13 +51,12 @@
       </div>
     </div>
   </div>
-  <div id='results'></div>
   <script src="libraries/knockout-3.5.0rc2.js"></script>
-  <script src="js/maps.js"></script>
-  <script src="js/models/model.js"></script>
-  <script src="js/view-model.js"></script>
-  <script async defer
-     src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCR1gK82_1nf14TURGx1h1ZI_HxpPz23es&callback=initMap">
-   </script>
+   <script src="js/models/model.js"></script>
+   <script src="js/maps.js"></script>
+   <script src="js/view-model.js"></script>
+   <script async defer
+      src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCR1gK82_1nf14TURGx1h1ZI_HxpPz23es&callback=initialize">
+    </script>
 </body>
 </html>

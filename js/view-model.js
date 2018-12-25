@@ -1,45 +1,18 @@
-var map;
-var vm;
-
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 42.2411344, lng: -88.31619649999999},
-    zoom: 13, mapTypeControl: false, gestureHandling: 'none'
-  });
-
-  // Create a view model
-  vm = new viewModel();
-  ko.applyBindings(vm);
-}
-
 var viewModel = function() {
   var self = this;
   self.pois = ko.observableArray([]);
-  var markers = [];
-  var largeInfoWindow = new google.maps.InfoWindow();
+  self.markers = ko.observableArray([]);
 
   // Create all the POI in to the pois array
   for (i = 0; i < locations.length; i++) {
     this.pois.push(new POI(locations[i]));
+    setupMapMarker(self, i, self.markers);
   }
-
-  // Use the pois array to create the map markers via googlemaps api.
-  for (i = 0; i < self.pois().length; i++) {
-    var marker = createMarker(map, self.pois()[i].location(), self.pois()[i].name(), i);
-
-    // Add the marker to the markers array
-    markers.push(marker);
-
-    // Create a click listener for each marker
-    marker.addListener('click', function() {
-      // Create an api request to get the yelp data for just this item
-      requestYelpData(this.id, self, self.pois()[this.id].name(), self.pois()[this.id].location());
-      // Create the info window
-      createInfoWindow(map, this, largeInfoWindow);
-    });
-  }
-
-  self.pois().forEach(function(poi) {
-    console.log(poi);
-  });
+  console.log(self.markers());
 };
+
+// Start the app after the googlemaps api is ready
+function initialize() {
+  initMap();
+  ko.applyBindings(new viewModel());
+}

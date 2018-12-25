@@ -4,7 +4,7 @@ locations = [
   {name: 'The Cottage', location: {lat: 42.241346, lng: -88.320419}},
   {name: 'Sterns Woods', location: {lat: 42.263007, lng: -88.307918}},
   {name: 'Cafe Olympic', location: {lat: 42.24338, lng: -88.317306}},
-  //{name: 'Raue Center', location: {lat: 42.241961, lng: -88.319034}}
+  {name: 'Raue Center', location: {lat: 42.241961, lng: -88.319034}}
 ];
 
 var POI = function(loc_data) {
@@ -17,16 +17,23 @@ var POI = function(loc_data) {
     self.reviews = ko.observableArray([]); // From yelp
     self.images = ko.observableArray([]);
     self.location(loc_data.location);
-    // Get reviews for the POI
-
-
-  // TODO: Add function to get photos from foursquare for place
 };
 
 function requestYelpData(id, vm, name, loc) {
   var promise = getYelpData(name, loc);
   promise.then(function(data) {
     vm.pois()[id].phone(data.businesses[0].display_phone);
+    vm.pois()[id].rating(data.businesses[0].rating);
+    vm.pois()[id].formatted_address(data.businesses[0].location.address1 +
+                                    ', ' + data.businesses[0].location.city +
+                                    ', ' + data.businesses[0].location.state +
+                                    ' ' + data.businesses[0].location.zip_code );
+    // Tell the infowindow the data is ready to be displayed
+    updateInfoWindow(vm, id, "success");
+  });
+  promise.fail(function(error) {
+    console.log(error);
+    updateInfoWindow("failure");
   });
 }
 
