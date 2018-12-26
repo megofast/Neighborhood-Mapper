@@ -21,8 +21,8 @@
         </button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a id="show-btn" data-bind="click: showAllMarkers(markers)" href="#">Show Markers</a></li>
-        <li><a id="hide-btn" data-bind="click: hideAllMarkers(markers)" href="#">Hide Markers</a></li>
+        <li><a id="show-btn" data-bind="click: function() { showAllMarkers(markers) }" href="#">Show Markers</a></li>
+        <li><a id="hide-btn" data-bind="click: function() { hideAllMarkers(markers) }" href="#">Hide Markers</a></li>
       </ul>
     </div>
   </nav>
@@ -36,11 +36,8 @@
             </div>
             <div class="row">
               <div class="list-group" data-bind="foreach: pois">
-            		<a href="#" class="list-group-item" data-bind="text: name"></a>
+            		<a href="#" class="list-group-item" data-bind="text: name, click: function(data, root){ $root.listSelectionChange(data, root, $index) }"></a>
             	</div>
-            </div>
-            <div class="row" id="info_pane">
-              <div data-bind="text: pois()[2].name()">Selected Data</div>
             </div>
           </div>
       </div>

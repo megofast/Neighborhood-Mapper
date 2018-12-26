@@ -1,5 +1,6 @@
 var map;
 var largeInfoWindow;
+var bounds;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -7,6 +8,7 @@ function initMap() {
     zoom: 13, mapTypeControl: false, gestureHandling: 'none'
   });
   largeInfoWindow = new google.maps.InfoWindow();
+  bounds = new google.maps.LatLngBounds();
 }
 
   function createMarker(pos, title, id) {
@@ -23,6 +25,8 @@ function initMap() {
   function setupMapMarker(vm, i, markers) {
     var marker = createMarker(vm.pois()[i].location(), vm.pois()[i].name(), i);
 
+    // Set the bounds of the map
+    bounds.extend(marker.position);
     // Add the marker to the markers array
     markers.push(marker);
 
@@ -71,7 +75,7 @@ function initMap() {
   }
 
 function showAllMarkers(markers) {
-  var bounds = new google.maps.LatLngBounds();
+  //var bounds = new google.maps.LatLngBounds();
   for(var i = 0; i < markers().length; i++) {
     showMarker(markers()[i]);
     bounds.extend(markers()[i].position);
@@ -85,7 +89,14 @@ function hideAllMarkers(markers) {
   }
 }
 
-function showMarker(marker, bounds) {
+function selectMarker(marker_id, markers) {
+  // Check whether or not a marker is selected already
+
+  hideAllMarkers(markers);
+  showMarker(markers()[marker_id()]);
+}
+
+function showMarker(marker) {
   marker.setMap(map);
 }
 
