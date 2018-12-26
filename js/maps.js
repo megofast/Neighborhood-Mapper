@@ -69,3 +69,26 @@ function initMap() {
       });
     }
   }
+
+function showAllMarkers(markers) {
+  var bounds = new google.maps.LatLngBounds();
+  for(var i = 0; i < markers().length; i++) {
+    showMarker(markers()[i]);
+    bounds.extend(markers()[i].position);
+  }
+  map.fitBounds(bounds);
+}
+
+function hideAllMarkers(markers) {
+  for(var i = 0; i < markers().length; i++) {
+    hideMarker(markers()[i]);
+  }
+}
+
+function showMarker(marker, bounds) {
+  marker.setMap(map);
+}
+
+function hideMarker(marker) {
+  marker.setMap(null);
+}

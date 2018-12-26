@@ -15,4 +15,6 @@ var viewModel = function() {
 function initialize() {
   initMap();
   ko.applyBindings(new viewModel());
+  // Programatically invoke a click to start with the markers as shown.
+  $('#show-btn').click();
 }

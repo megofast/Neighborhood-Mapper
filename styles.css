@@ -26,6 +26,11 @@ html,body {
   color: black;
 }
 
+.search-bar {
+  width: 30%;
+}
+
+
 .no-pad-marg {
   padding: 0;
   margin: 0;

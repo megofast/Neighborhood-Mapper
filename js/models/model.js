@@ -14,7 +14,7 @@ var POI = function(loc_data) {
     self.formatted_address = ko.observable();
     self.phone = ko.observable();
     self.location = ko.observableArray([]);
-    self.reviews = ko.observableArray([]); // From yelp
+    self.reviews = ko.observableArray([]);
     self.images = ko.observableArray([]);
     self.location(loc_data.location);
 };
