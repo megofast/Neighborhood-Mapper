@@ -12,14 +12,12 @@
 <body>
   <nav class="navbar navbar-inverse no-pad-marg">
     <div class="container-fluid">
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Filter">
-        </div>
-        <button class="btn btn-default" type="submit">
+
+        <div class="navbar-form navbar-left">
+          <input type="text" id="filterInput" data-bind="event: {keyup: filter}" class="form-control" placeholder="Filter">
           <i class="glyphicon glyphicon-search"></i>
-        </button>
-      </form>
+        </div>
+
       <ul class="nav navbar-nav navbar-right">
         <li><a id="show-btn" data-bind="click: function() { showAllMarkers(markers) }" href="#">Show Markers</a></li>
         <li><a id="hide-btn" data-bind="click: function() { hideAllMarkers(markers) }" href="#">Hide Markers</a></li>
@@ -35,9 +33,9 @@
               <h3>Points of Interest</h3>
             </div>
             <div class="row">
-              <div class="list-group" data-bind="foreach: pois">
-            		<a href="#" class="list-group-item" data-bind="text: name, click: function(data, root){ $root.listSelectionChange(data, root, $index) }"></a>
-            	</div>
+              <ul id="items" class="list-group" data-bind="foreach: pois">
+            		<li class="list-group-item txt-clr-blk cursor-pointer" data-bind="text: name, click: function(data, root){ $root.listSelectionChange(data, root, $index) }"></li>
+            	</ul>
             </div>
           </div>
       </div>

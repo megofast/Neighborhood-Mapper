@@ -16,14 +16,18 @@ html,body {
   color: black;
   width: 100px;
   height: 100px;
-  display: flex;              /* establish flex container */
-  flex-direction: column;     /* stack flex items vertically */
-  justify-content: center;    /* center items vertically, in this case */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.inf {
+.txt-clr-blk {
   color: black;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .search-bar {
@@ -61,5 +65,4 @@ html,body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
 }

@@ -1,14 +1,12 @@
 var map;
 var largeInfoWindow;
-var bounds;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 42.2411344, lng: -88.31619649999999},
-    zoom: 13, mapTypeControl: false, gestureHandling: 'none'
+    zoom: 13, mapTypeControl: false
   });
   largeInfoWindow = new google.maps.InfoWindow();
-  bounds = new google.maps.LatLngBounds();
 }
 
   function createMarker(pos, title, id) {
@@ -25,8 +23,6 @@ function initMap() {
   function setupMapMarker(vm, i, markers) {
     var marker = createMarker(vm.pois()[i].location(), vm.pois()[i].name(), i);
 
-    // Set the bounds of the map
-    bounds.extend(marker.position);
     // Add the marker to the markers array
     markers.push(marker);
 
@@ -49,11 +45,29 @@ function initMap() {
   function updateInfoWindow(vm, id, status) {
     if (status == 'success' || status == 'preloaded') {
       // The data was retreived asynchronously successfully, show infowindow data
-      var content = '<div class="inf"><div>' + vm.pois()[id].name() + '</div>' +
+      var content = '<div class="txt-clr-blk"><div><h4>' + vm.pois()[id].name() + '</h4></div>' +
+                      '<div><img src="' + vm.pois()[id].image() + '" height="75px" /></div>' +
                       '<div>' + vm.pois()[id].phone() + '</div>' +
-                      '<div>' + vm.pois()[id].formatted_address() + '</div>' +
-                      '<div>' + vm.pois()[id].rating() + '</div>' +
-                      '<div>5 Reviews</div></div>';
+                      '<div>' + vm.pois()[id].formatted_address() + '</div><div>';
+      // Create the stars for the rating
+      var stars = parseFloat(vm.pois()[id].rating());
+      var half_star = stars % 1;
+      if (half_star == 0) {
+        for (i = 0; i < stars; i++) {
+            // Loop and create the full stars
+            content = content + '<img src="images/star.png" height="24px" width="24px" />';
+        }
+      } else {
+        // There is a half star
+        for (i = 0; i < stars; i++) {
+          // Loop and create the full stars
+          if (i == parseInt(stars)) {
+            content = content + '<img src="images/half_star.png" height="24px" width="24px" />';
+          } else {
+            content = content + '<img src="images/star.png" height="24px" width="24px" />';
+          }
+        }
+      }
       largeInfoWindow.setContent(content);
     } else if (status == 'failure') {
       // The data has previously been retreived, do not refetch with api.
@@ -75,7 +89,7 @@ function initMap() {
   }
 
 function showAllMarkers(markers) {
-  //var bounds = new google.maps.LatLngBounds();
+  var bounds = new google.maps.LatLngBounds();
   for(var i = 0; i < markers().length; i++) {
     showMarker(markers()[i]);
     bounds.extend(markers()[i].position);
@@ -89,11 +103,18 @@ function hideAllMarkers(markers) {
   }
 }
 
-function selectMarker(marker_id, markers) {
-  // Check whether or not a marker is selected already
-
-  hideAllMarkers(markers);
-  showMarker(markers()[marker_id()]);
+function setBounds(markers) {
+  // Set the bounds
+  var bounds = new google.maps.LatLngBounds();
+  for (i = 0; i < markers().length; i++) {
+      if (markers()[i].getMap == null) {
+        // The marker is not visible
+      } else {
+        // The marker is visible, set bounds
+        bounds.extend(markers()[i].position);
+      }
+  }
+  map.fitBounds(bounds);
 }
 
 function showMarker(marker) {
