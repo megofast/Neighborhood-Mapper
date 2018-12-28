@@ -1,5 +1,5 @@
-var viewModel = function() {
-  var self = this;
+let viewModel = function() {
+  let self = this;
   self.pois = ko.observableArray([]);
   self.markers = ko.observableArray([]);
 
@@ -32,11 +32,11 @@ var viewModel = function() {
   };
 
   self.filter = function() {
-    var filter = $('#filterInput').val();
-    var items = $('#items li');
-    var filter_text = filter.toUpperCase();
+    let filter = $('#filterInput').val();
+    let items = $('#items li');
+    let filter_text = filter.toUpperCase();
     items.each(function() {
-      var name = this.innerHTML;
+      let name = this.innerHTML;
       if (name.toUpperCase().indexOf(filter_text) > -1) {
         this.style.display = '';
       } else {

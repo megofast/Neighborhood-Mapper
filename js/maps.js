@@ -1,5 +1,5 @@
-var map;
-var largeInfoWindow;
+let map;
+let largeInfoWindow;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -10,7 +10,7 @@ function initMap() {
 }
 
   function createMarker(pos, title, id) {
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
       map: map,
       position: pos,
       title: title,
@@ -21,7 +21,7 @@ function initMap() {
   }
 
   function setupMapMarker(vm, i, markers) {
-    var marker = createMarker(vm.pois()[i].location(), vm.pois()[i].name(), i);
+    let marker = createMarker(vm.pois()[i].location(), vm.pois()[i].name(), i);
 
     // Add the marker to the markers array
     markers.push(marker);
@@ -45,13 +45,13 @@ function initMap() {
   function updateInfoWindow(vm, id, status) {
     if (status == 'success' || status == 'preloaded') {
       // The data was retreived asynchronously successfully, show infowindow data
-      var content = '<div class="txt-clr-blk"><div><h4>' + vm.pois()[id].name() + '</h4></div>' +
+      let content = '<div class="txt-clr-blk"><div><h4>' + vm.pois()[id].name() + '</h4></div>' +
                       '<div><img src="' + vm.pois()[id].image() + '" height="75px" /></div>' +
                       '<div>' + vm.pois()[id].phone() + '</div>' +
                       '<div>' + vm.pois()[id].formatted_address() + '</div><div>';
       // Create the stars for the rating
-      var stars = parseFloat(vm.pois()[id].rating());
-      var half_star = stars % 1;
+      let stars = parseFloat(vm.pois()[id].rating());
+      let half_star = stars % 1;
       if (half_star == 0) {
         for (i = 0; i < stars; i++) {
             // Loop and create the full stars
@@ -70,7 +70,9 @@ function initMap() {
       }
       largeInfoWindow.setContent(content);
     } else if (status == 'failure') {
-      // The data has previously been retreived, do not refetch with api.
+      // The request for api data failed, inform the user
+      content = '<div class="txt-clr-blk">There was an error loading the Yelp Data, Please try again.</div>';
+      largeInfoWindow.setContent(content);
     }
   }
 
@@ -79,7 +81,7 @@ function initMap() {
 
     if (infoWindow.marker !== marker) {
       infoWindow.marker = marker;
-      var content_loading = '<div class="info-container"><div class="box">Loading...</div><div class="box"><div class="spinner"></div></div></div>';
+      let content_loading = '<div class="info-container"><div class="box">Loading...</div><div class="box"><div class="spinner"></div></div></div>';
       infoWindow.setContent(content_loading);
       infoWindow.open(map, marker);
       infoWindow.addListener('closeclick', function() {
@@ -89,8 +91,8 @@ function initMap() {
   }
 
 function showAllMarkers(markers) {
-  var bounds = new google.maps.LatLngBounds();
-  for(var i = 0; i < markers().length; i++) {
+  let bounds = new google.maps.LatLngBounds();
+  for(let i = 0; i < markers().length; i++) {
     showMarker(markers()[i]);
     bounds.extend(markers()[i].position);
   }
@@ -98,15 +100,15 @@ function showAllMarkers(markers) {
 }
 
 function hideAllMarkers(markers) {
-  for(var i = 0; i < markers().length; i++) {
+  for(let i = 0; i < markers().length; i++) {
     hideMarker(markers()[i]);
   }
 }
 
 function setBounds(markers) {
   // Set the bounds
-  var bounds = new google.maps.LatLngBounds();
-  for (i = 0; i < markers().length; i++) {
+  let bounds = new google.maps.LatLngBounds();
+  for (let i = 0; i < markers().length; i++) {
       if (markers()[i].getMap == null) {
         // The marker is not visible
       } else {
@@ -118,6 +120,7 @@ function setBounds(markers) {
 }
 
 function showMarker(marker) {
+  marker.setAnimation(google.maps.Animation.DROP);
   marker.setMap(map);
 }
 

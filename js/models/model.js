@@ -1,4 +1,4 @@
-locations = [
+const locations = [
   {name: 'Veterans Acres Park', location: {lat: 42.252071, lng: -88.318866}},
   {name: 'Main Beach', location: {lat: 42.232333, lng: -88.344324}},
   {name: 'The Cottage', location: {lat: 42.241346, lng: -88.320419}},
@@ -7,7 +7,7 @@ locations = [
   {name: 'Raue Center', location: {lat: 42.241961, lng: -88.319034}}
 ];
 
-var POI = function(loc_data) {
+let POI = function(loc_data) {
     self = this;
     self.name = ko.observable(loc_data.name);
     self.rating = ko.observable();
@@ -19,7 +19,7 @@ var POI = function(loc_data) {
 };
 
 function requestYelpData(id, vm, name, loc) {
-  var promise = getYelpData(name, loc);
+  let promise = getYelpData(name, loc);
   promise.then(function(data) {
     vm.pois()[id].phone(data.businesses[0].display_phone);
     vm.pois()[id].rating(data.businesses[0].rating);
@@ -31,14 +31,15 @@ function requestYelpData(id, vm, name, loc) {
     // Tell the infowindow the data is ready to be displayed
     updateInfoWindow(vm, id, "success");
   });
+  // Handle if the Yelp data request fails
   promise.fail(function(error) {
-    console.log(error);
-    updateInfoWindow("failure");
+    console.log(error.statusText);
+    updateInfoWindow(vm, id, "failure");
   });
 }
 
 function getYelpData(businessName, loc) {
-  var yelpUrl = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + businessName + '&latitude=' + loc.lat + '&longitude=' + loc.lng + '&limit=1';
+  let yelpUrl = 'https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=' + businessName + '&latitude=' + loc.lat + '&longitude=' + loc.lng + '&limit=1';
   return $.ajax({
       url: yelpUrl,
       method: 'GET',
