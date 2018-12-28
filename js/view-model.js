@@ -40,7 +40,7 @@ let viewModel = function() {
       if (name.toUpperCase().indexOf(filter_text) > -1) {
         this.style.display = '';
       } else {
-        // Hide the items that dont match
+        // Hide the items that don't match
         this.style.display = 'none';
       }
     });
@@ -51,5 +51,4 @@ let viewModel = function() {
 function initialize() {
   initMap();
   ko.applyBindings(new viewModel());
-  // Programatically invoke a click to start with the markers as shown.
 }

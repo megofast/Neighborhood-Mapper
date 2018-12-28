@@ -33,7 +33,6 @@ function requestYelpData(id, vm, name, loc) {
   });
   // Handle if the Yelp data request fails
   promise.fail(function(error) {
-    console.log(error.statusText);
     updateInfoWindow(vm, id, "failure");
   });
 }
