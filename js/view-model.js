@@ -28,15 +28,12 @@ let viewModel = function() {
       google.maps.event.trigger(largeInfoWindow, 'closeclick');
     } else {
       for (let i = 0; i < self.listSelected().length; i++) {
-        self.listSelected()[id()] = false;
-        self.listSelected.valueHasMutated();
-        console.log(self.listSelected()[id()]);
+        self.listSelected()[i] = false;
         hideMarker(self.markers()[i]);
       }
       self.listSelected()[id()] = true;
       self.listSelected.valueHasMutated();
       showMarker(self.markers()[id()]);
-      console.log(self.listSelected());
       // Simulate a click and open an info window
       google.maps.event.trigger(self.markers()[id()], 'click');
       setBounds(self.markers);
