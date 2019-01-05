@@ -2,48 +2,65 @@ let viewModel = function() {
   let self = this;
   self.pois = ko.observableArray([]);
   self.markers = ko.observableArray([]);
+  self.filterText = ko.observable('');
+  self.listVisible = ko.observableArray([]);
+  self.listSelected = ko.observableArray([]);
 
-  // Create all the POI in to the pois array
+  // Create all the POI in to the pois array, setup markers and list
   for (i = 0; i < locations.length; i++) {
-    this.pois.push(new POI(locations[i]));
+    self.pois.push(new POI(locations[i]));
     setupMapMarker(self, i, self.markers);
+    self.listVisible.push(true);
+    self.listSelected.push(false);
   }
 
   self.listSelectionChange = function(data, event, id) {
-    // If no item has been selected yet, remove all markers from map
-    if ($('.active').length == 0) {
+    // If no item has been selecte yet, remove all markers
+    if (!self.listSelected().includes(true)) {
       hideAllMarkers(self.markers);
     }
-
-    if ($(event.currentTarget).hasClass('active')) {
-      // The current selection was made twice, remove the active class and hide marker
-      $(event.currentTarget).removeClass('active');
+    // If the list item is selected, unselect it, otherwise select it
+    if (self.listSelected()[id()]) {
+      // Selected twice...
+      self.listSelected()[id()] = false;
+      self.listSelected.valueHasMutated();
       hideMarker(self.markers()[id()]);
+      google.maps.event.trigger(largeInfoWindow, 'closeclick');
     } else {
-      $(event.currentTarget).addClass('active');
+      self.listSelected()[id()] = true;
+      self.listSelected.valueHasMutated();
       showMarker(self.markers()[id()]);
+      // Close the open info window, stopping the animation
+      google.maps.event.trigger(largeInfoWindow, 'closeclick');
+      // Simulate a click and open an info window
+      google.maps.event.trigger(self.markers()[id()], 'click');
       setBounds(self.markers);
     }
-
-    // We must check again if no markers are selected after click, show all markers
-    if ($('.active').length == 0) {
+    // If the user deselects everything, show all markers
+    if (!self.listSelected().includes(true)) {
+      // Kill any open infowindows
+      google.maps.event.trigger(largeInfoWindow, 'closeclick');
+      // Display all the markers as no list items are selected
       showAllMarkers(self.markers);
     }
+    console.log(largeInfoWindow);
   };
 
   self.filter = function() {
-    let filter = $('#filterInput').val();
-    let items = $('#items li');
-    let filter_text = filter.toUpperCase();
-    items.each(function() {
-      let name = this.innerHTML;
-      if (name.toUpperCase().indexOf(filter_text) > -1) {
-        this.style.display = '';
+    let filter_text = self.filterText().toUpperCase();
+    for (i = 0; i < self.pois().length; i++) {
+      if (self.pois()[i].name().toUpperCase().indexOf(filter_text) > -1) {
+        // The filter found text in the list item, show the item
+        self.listVisible()[i] = true;
+        showMarker(self.markers()[i]);
+        self.listVisible.valueHasMutated();
       } else {
-        // Hide the items that don't match
-        this.style.display = 'none';
+        // The filter did not find text in the item, hide the list item
+        self.listVisible()[i] = false;
+        hideMarker(self.markers()[i]);
+        self.listVisible.valueHasMutated();
       }
-    });
+    }
   };
 };
 

@@ -14,7 +14,7 @@
     <div class="container-fluid">
 
         <div class="navbar-form navbar-left">
-          <input type="text" id="filterInput" data-bind="event: {keyup: filter}" class="form-control" placeholder="Filter">
+          <input type="text" data-bind="textInput: filterText, event: {keyup: filter}" class="form-control" placeholder="Filter">
           <i class="glyphicon glyphicon-search"></i>
         </div>
 
@@ -24,7 +24,6 @@
       </ul>
     </div>
   </nav>
-  </div>
   <div class="container-fluid no-pad-marg h90">
     <div class="row no-pad-marg h100">
       <div class="col-sm-3">
@@ -34,7 +33,9 @@
             </div>
             <div class="row">
               <ul id="items" class="list-group" data-bind="foreach: pois">
-            		<li class="list-group-item txt-clr-blk cursor-pointer" data-bind="text: name, click: function(data, root){ $root.listSelectionChange(data, root, $index) }"></li>
+            		<li class="list-group-item txt-clr-blk cursor-pointer" data-bind="text: name, style: {display: $root.listVisible()[$index()] ? '' : 'none'},
+                  css: {active: $root.listSelected()[$index()]},
+                  click: function(data, root){ $root.listSelectionChange(data, root, $index) }"></li>
             	</ul>
             </div>
           </div>
@@ -49,7 +50,8 @@
    <script src="js/maps.js"></script>
    <script src="js/view-model.js"></script>
    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCR1gK82_1nf14TURGx1h1ZI_HxpPz23es&callback=initialize">
+      src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCR1gK82_1nf14TURGx1h1ZI_HxpPz23es&callback=initialize"
+      onerror="mapsError()">
     </script>
 </body>
 </html>
