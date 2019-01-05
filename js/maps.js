@@ -36,11 +36,11 @@ function setupMapMarker(vm, i, markers) {
   // Create a click listener for each marker
   marker.addListener('click', function() {
     // Clear any animations that are currently going
-    for (i = 0; i < markers().length; i++) {
-      markers()[i].setAnimation();
+    for (let x = 0; x < markers().length; x++) {
+      markers()[x].setAnimation(google.maps.Animation.DROP);
     }
     // Animate the marker
-    this.setAnimation(google.maps.Animation.BOUNCE);
+    marker.setAnimation(google.maps.Animation.BOUNCE);
     // Check to see whether the yelp data has previously been retrieved
     if (vm.pois()[this.id].phone() == null && vm.pois()[this.id].formatted_address() == null) {
       // Create an api request to get the yelp data for just this item
@@ -99,8 +99,8 @@ function createInfoWindow(marker, vm) {
       largeInfoWindow.marker = null;
       largeInfoWindow.map = null;
       largeInfoWindow.anchor = null;
-      largeInfoWindow.close();
-      marker.setAnimation();
+      //largeInfoWindow.close();
+      marker.setAnimation(google.maps.Animation.DROP);
     });
   }
 }
